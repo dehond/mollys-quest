@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'superscript';
+  src: url('font/Superscript.woff2') format('woff2'),
+      url('font/Superscript.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+canvas, body {
+    margin: 0;
+    padding: 0;
+}
+
+.dialog {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50%;
+  width: 60%;
+  top: calc(25% - 5mm);
+  left: calc(20% - 5mm);
+  background-color: #a3a3a3;
+  text-align: center;
+  border: 10mm ridge #547abd;
+}
+
+#dialogBox {
+  animation: none;
+}
+
+.dialogcontent {
+  padding-top: 50px;
+}
+
+#dialognav {
+  visibility: hidden;
+  animation: blink-animation 1s steps(2, jump-none) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes animate-hide {
+  to {
+    width: 0;
+    height: 0;
+  }
+}
+
+#dialogtext, p {
+  font-family: 'superscript';
+  font-size: 18pt;
+  margin: 3pt;
+}
