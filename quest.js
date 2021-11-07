@@ -1,3 +1,6 @@
+var Typewriter = require('typewriter-effect');
+var other = require('./dialogControl');
+
 const canvas = document.getElementById('game');
 
 let width = window.innerWidth;
@@ -90,11 +93,43 @@ class Molly {
             if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
         }, 5)
     }
+    
+    step = 2;
+    moveMolly(e) {
+        if (e.key == "ArrowLeft") {
+            this.velocity[0] = -this.step;
+        }
+        else if (e.key == "ArrowRight") {
+            this.velocity[0] = this.step;
+        }
+        else if (e.key == "ArrowUp") {
+            this.velocity[1] = -this.step;
+        }
+        else if (e.key == "ArrowDown") {
+            this.velocity[1] = this.step;
+        }
+    }
+    stopMolly(e) {
+    if (e.repeat == false) {
+        if (e.key == "ArrowLeft") {
+            this.velocity[0] = 0;
+        }
+        else if (e.key == "ArrowRight") {
+            this.velocity[0] = 0;
+        }
+        else if (e.key == "ArrowUp") {
+            this.velocity[1] = 0;
+        }
+        else if (e.key == "ArrowDown") {
+            this.velocity[1] = 0;
+        }
+    }
+}
 }
 
 class Spotlight {
     maxradius = 70;
-    radius = 0;
+    radius = 70;
     pts =[...Array(500).keys()].map( (i) => [Math.floor(14*Math.cos(2*i*Math.PI/500 + 0.0001))/14, Math.floor(14*Math.sin(2*i*Math.PI/500 + 0.0001))/14] );
     showSpotlight() {
         let _this = this;
@@ -111,8 +146,6 @@ class Spotlight {
 let molly = new Molly();
 let spotlight = new Spotlight();
 
-startLevel(1);
-
 window.requestAnimationFrame(animate);
 
 function animate() {
@@ -124,38 +157,6 @@ function animate() {
     window.requestAnimationFrame(animate);
 }
 
-let step = 2;
-function moveMolly(e) {
-    if (e.key == "ArrowLeft") {
-        molly.velocity[0] = -step;
-    }
-    else if (e.key == "ArrowRight") {
-        molly.velocity[0] = step;
-    }
-    else if (e.key == "ArrowUp") {
-        molly.velocity[1] = -step;
-    }
-    else if (e.key == "ArrowDown") {
-        molly.velocity[1] = step;
-    }
-}
-
-function stopMolly(e) {
-    if (e.repeat == false) {
-        if (e.key == "ArrowLeft") {
-            molly.velocity[0] = 0;
-        }
-        else if (e.key == "ArrowRight") {
-            molly.velocity[0] = 0;
-        }
-        else if (e.key == "ArrowUp") {
-            molly.velocity[1] = 0;
-        }
-        else if (e.key == "ArrowDown") {
-            molly.velocity[1] = 0;
-        }
-    }
-}
 
 function startLevel(num) {
     if (num == 1) {
@@ -165,11 +166,15 @@ function startLevel(num) {
     }
 }
 
-document.onkeydown = moveMolly;
-document.onkeyup = stopMolly;
+document.onkeydown = molly.moveMolly.bind(molly);
+document.onkeyup = molly.stopMolly.bind(molly);
 window.onresize = function() {
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
 }
+
+window.spotlight = spotlight;
+window.molly = molly;
+window.startLevel = startLevel;

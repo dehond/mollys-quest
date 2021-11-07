@@ -1,11 +1,13 @@
 ////// HIDE DIALOG
-let el = document.getElementById("dialogBox");
-el.style.display = "none";
+// let el = document.getElementById("dialogBox");
+// el.style.display = "none";
 //////
+
+var Typewriter = require('typewriter-effect/dist/core');
 
 let dialogtxt = document.getElementById("dialogtext");
 
-var typewriter = new Typewriter(dialogtxt, {
+let typewriter = new Typewriter(dialogtxt, {
     loop: false,
     delay: 0,
 });
@@ -13,7 +15,7 @@ var typewriter = new Typewriter(dialogtxt, {
 function blinkPointer() {
     if (currentMessage == 2)
         {spotlight.showSpotlight()}
-    else if (currentMessage == 3)
+    else if (currentMessage == 3)   
         {molly.runTo(-100, molly.position[1])};
     document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
     let el = document.getElementById("dialognav");
@@ -26,7 +28,7 @@ function hidePointer() {
     el.style.visibility = "hidden";
 }
 
-let currentMessage = 1;
+let currentMessage = 0;
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
                 Een scheetje, een boertje, voor niemand een genotje,<br>
@@ -74,3 +76,5 @@ function nextDialog() {
         startLevel(1);
     }
 }
+
+window.nextDialog = nextDialog;
