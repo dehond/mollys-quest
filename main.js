@@ -14,6 +14,7 @@ class Dialog {
                             loop: false,
                             delay: 0,
                         });
+        this.shown = true;
     }
     blinkPointer() {
         document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
@@ -35,6 +36,7 @@ class Dialog {
         }
     }
     typeMessage(message, action = null) {
+        this.hidePointer();
         this.clearDialog();
         this.typewriter
             .typeString(message)
@@ -51,7 +53,14 @@ class Dialog {
     }
     hideDialogBox() {
         let _this = this;
-        this.dialogbox.innerHTML = "";
+        this.shown = false;
+        
+        // Empty out dialog box
+        this.clearDialog();
+        this.hidePointer();
+        document.getElementById("logo").style.display = "none";
+        document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
+
         this.dialogbox.style.animation = "animate-hide 3s steps(10, jump-none) both";
         this.dialogbox.addEventListener("animationend", function() {
             _this.dialogbox.style.display = "none";
@@ -60,6 +69,7 @@ class Dialog {
     }
     showDialogBox() {
         let _this = this;
+        this.shown = true;
         this.dialogbox.offsetHeight; // Reflow for restarting animation
         this.dialogbox.style.display = "block";
         
@@ -69,7 +79,7 @@ class Dialog {
 
     }
     next() {
-        if (this.messages.length > 0) {
+        if (this.messages.length > 0 && typeof(this.messages) != "string") {
             this.typeMessage(this.messages.shift(), this.actions.shift());
         } else {
             this.hideDialogBox();
