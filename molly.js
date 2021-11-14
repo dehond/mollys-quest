@@ -1,5 +1,7 @@
 const canvas = document.getElementById('game');
 
+let Levels = require('./levels');
+
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -59,10 +61,9 @@ class Molly {
                 (molly.sprite == img1) ? (molly.sprite = img2) : (molly.sprite = img1);
             }
         }
-        // ctx.strokeStyle = "red";
-        // ctx.strokeRect(-molly.boundingBox[0]/2, -molly.boundingBox[1]/2, molly.boundingBox[0], molly.boundingBox[1]);
         ctx.restore();
     
+        // Orient Molly left/right/up/down
         if (molly.velocity[0]) {
           (molly.velocity[0] > 0 ? molly.heading = "right" : molly.heading = "left");
         }
@@ -70,6 +71,7 @@ class Molly {
           (molly.velocity[1] > 0 ? molly.heading = "down" : molly.heading = "up");
         }
     
+        // Stop Molly if she runs into the wall
         if ( (molly.position[0] - molly.boundingBox[0]/4) <= 0 && molly.velocity[0] < 0 ) {
             molly.velocity[0] = 0;
         } else if ( (molly.position[0] + molly.boundingBox[0]/4) >= width && molly.velocity[0] > 0 ) {
@@ -80,8 +82,18 @@ class Molly {
         } else if ( (molly.position[1] + molly.boundingBox[1]/4) >= height && molly.velocity[1] > 0 ) {
             molly.velocity[1] = 0;
         }
-        molly.position[0] += molly.velocity[0];
-        molly.position[1] += molly.velocity[1];
+
+        // Only move Molly if she's not bumping into the maze
+        let collision = this.checkWallCollision();
+        if (!collision) {
+            this.position[0] += this.velocity[0];
+            this.position[1] += this.velocity[1];
+        } else if (collision == "h") {
+            // console.log(this.checkWallCollision());
+            this.velocity[0] = 0;
+        } else if (collision == "v") {
+            this.velocity[1] = 0;
+        }
     }
     runTo(x, y) {
         let _this = this;
@@ -122,6 +134,24 @@ class Molly {
                 this.velocity[1] = 0;
             }
         }
+    }
+    checkWallCollision() {
+        let wallpts = Levels[0].wallpaths.flat();
+        let threshold = 20;
+        for (let wallpt of wallpts) {
+            let dx = this.position[0] + this.velocity[0] - wallpt[0];
+            let dy = this.position[1] + this.velocity[1] - wallpt[1];
+            if ( Math.sqrt( dx**2 + dy**2 ) < threshold ){
+                let angle = Math.atan2(dy, dx);
+                if ((angle > Math.PI/4 && angle < 3*Math.PI/4) || (angle < -Math.PI/4 && angle > -3*Math.PI/4)) {
+                    return "v";
+                } else {
+                    return "h"
+                }
+                // return true;
+            }
+        }
+        return false;
     }
 }
 

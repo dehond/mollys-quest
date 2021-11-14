@@ -1,5 +1,6 @@
 var Typewriter = require('typewriter-effect');
 var Molly = require('./molly');
+var Levels = require('./levels');
 require('./dialogControl');
 
 const canvas = document.getElementById('game');
@@ -18,7 +19,7 @@ img2.src = 'molly2-pixel.png';
 
 class Spotlight {
     maxradius = 70;
-    radius = 70;
+    radius = 0;
     pts =[...Array(500).keys()].map( (i) => [Math.floor(14*Math.cos(2*i*Math.PI/500 + 0.0001))/14, Math.floor(14*Math.sin(2*i*Math.PI/500 + 0.0001))/14] );
     showSpotlight() {
         let _this = this;
@@ -43,6 +44,7 @@ function animate() {
     if (molly.visible) {
         molly.drawMolly();
     }
+    Levels[0].drawWall(ctx);
     window.requestAnimationFrame(animate);
 }
 
@@ -67,3 +69,5 @@ window.onresize = function() {
 window.spotlight = spotlight;
 window.molly = molly;
 window.startLevel = startLevel;
+startLevel(1)
+Levels[0].drawWall(ctx);
