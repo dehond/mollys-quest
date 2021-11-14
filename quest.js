@@ -44,7 +44,7 @@ function animate() {
     if (molly.visible) {
         molly.drawMolly();
     }
-    Levels[0].drawWall(ctx);
+    Levels[0].drawLevel(ctx);
     window.requestAnimationFrame(animate);
 }
 
@@ -69,5 +69,5 @@ window.onresize = function() {
 window.spotlight = spotlight;
 window.molly = molly;
 window.startLevel = startLevel;
-startLevel(1)
+// startLevel(1)
 Levels[0].drawWall(ctx);

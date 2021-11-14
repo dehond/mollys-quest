@@ -148,10 +148,17 @@ class Molly {
                 } else {
                     return "h"
                 }
-                // return true;
             }
         }
         return false;
+    }
+    checkTreasureFound() {
+        let dx = this.position[0] - Levels[0].treasureLocation[0];
+        let dy = this.position[1] - Levels[0].treasureLocation[1];
+        if (Math.sqrt(dx**2 + dy**2) < 10) {
+            return true;
+        }
+        else return false;
     }
 }
 

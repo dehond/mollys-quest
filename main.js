@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 ////// HIDE DIALOG
-let el = document.getElementById("dialogBox");
-el.style.display = "none";
+// let el = document.getElementById("dialogBox");
+// el.style.display = "none";
 //////
 
 var Typewriter = require('typewriter-effect/dist/core');
@@ -84,10 +84,13 @@ let height = window.innerHeight;
 
 class Level {
     // Wall defined as [x0, y0, width, height] where they're all between 0 and 100
-    constructor(walls) {
+    constructor(walls, treasureImgPath, treasureLocation) {
         this.walls = walls;
         this.wallpaths = [];
         this.buildWalls();
+        this.treasureImg = new Image();
+        this.treasureImg.src = treasureImgPath;
+        this.treasureLocation = treasureLocation;
     }
     buildWalls() {
         for (let wall of this.walls) {
@@ -101,8 +104,13 @@ class Level {
             this.wallpaths.push(wallpoints);
         }
     }
+    drawLevel(ctx) {
+        this.drawWall(ctx);
+        this.drawTreasure(ctx);
+    }
     drawWall(ctx) {
         ctx.strokeStyle = "white";
+        ctx.lineCap = "square";
         ctx.lineWidth = 15;
         ctx.stroke
         for (let wallpath of this.wallpaths) {
@@ -114,10 +122,26 @@ class Level {
             ctx.stroke();
         }
     }
+    drawTreasure(ctx) {
+        ctx.drawImage(this.treasureImg, this.treasureLocation[0]*width/100 - 25, this.treasureLocation[1]*height/100 - 25, 50, 50);
+    }
 }
 
 
-Levels = [new Level([[20, 0, 0, 30], [20, 40, 0, 50], [20, 50, 20, 0]])];
+Levels = [new Level([[20, 0, 0, 30],
+    [20, 40, 0, 50],
+    [20, 50, 20, 0],
+    [30, 10, 0, 50],
+    [40, 0, 0, 50],
+    [30, 90, 0, 10],
+    [30, 75, 40, 0],
+    [50, 60, 0, 40],
+    [50, 90, 30, 0],
+    [50, 30, 50, 0],
+    [65, 60, 25, 0],
+    [70, 30, 0, 30],
+    [85, 45, 0, 15]
+], "treasures/key.png", [77.5, 50])];
 
 module.exports = Levels;
 },{}],3:[function(require,module,exports){
@@ -271,10 +295,17 @@ class Molly {
                 } else {
                     return "h"
                 }
-                // return true;
             }
         }
         return false;
+    }
+    checkTreasureFound() {
+        let dx = this.position[0] - Levels[0].treasureLocation[0];
+        let dy = this.position[1] - Levels[0].treasureLocation[1];
+        if (Math.sqrt(dx**2 + dy**2) < 10) {
+            return true;
+        }
+        else return false;
     }
 }
 
@@ -2800,7 +2831,7 @@ function animate() {
     if (molly.visible) {
         molly.drawMolly();
     }
-    Levels[0].drawWall(ctx);
+    Levels[0].drawLevel(ctx);
     window.requestAnimationFrame(animate);
 }
 
@@ -2825,7 +2856,7 @@ window.onresize = function() {
 window.spotlight = spotlight;
 window.molly = molly;
 window.startLevel = startLevel;
-startLevel(1)
+// startLevel(1)
 Levels[0].drawWall(ctx);
 },{"./dialogControl":1,"./levels":2,"./molly":3,"typewriter-effect":9}],11:[function(require,module,exports){
 // shim for using process in browser
