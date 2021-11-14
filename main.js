@@ -82,8 +82,10 @@ class Dialog {
         if (this.messages.length > 0 && typeof(this.messages) != "string") {
             this.typeMessage(this.messages.shift(), this.actions.shift());
         } else {
+            let lastAction = this.actions.pop()
             this.hideDialogBox();
-            startLevel(1);
+            lastAction();
+            ;
         }
     }
 }
@@ -110,7 +112,7 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 `
             ];
 
-let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1])];
+let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), () => startLevel(1)];
 let dialog = new Dialog();
 dialog.displayMessages(messages, actions);
 
