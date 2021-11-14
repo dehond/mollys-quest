@@ -45,7 +45,7 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
 
                 `Ze beet door, haar tandjes wisten niet van wijken,<br>
                 Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
-                Een soepel lobje in de richting van het bos,<br>
+                Een soepele worp in de richting van het bos,<br>
                 En Molly rende er achteraan, haar tandjes waren los.
                 `
             ]
