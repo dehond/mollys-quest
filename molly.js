@@ -89,11 +89,13 @@ class Molly {
             this.position[0] += this.velocity[0];
             this.position[1] += this.velocity[1];
         } else if (collision == "h") {
-            // console.log(this.checkWallCollision());
             this.velocity[0] = 0;
         } else if (collision == "v") {
             this.velocity[1] = 0;
         }
+
+        // Has Molly found the treasure yet?
+        this.checkTreasureFound();
     }
     runTo(x, y) {
         let _this = this;
@@ -104,7 +106,7 @@ class Molly {
         }, 5)
     }
     
-    step = 2;
+    step = 4;
     moveMolly(e) {
         if (e.key == "ArrowLeft") {
             this.velocity[0] = -this.step;
@@ -155,7 +157,8 @@ class Molly {
     checkTreasureFound() {
         let dx = this.position[0] - Levels[0].treasureLocation[0];
         let dy = this.position[1] - Levels[0].treasureLocation[1];
-        if (Math.sqrt(dx**2 + dy**2) < 10) {
+        if (Math.sqrt(dx**2 + dy**2) < 20) {
+            console.log("found!")
             return true;
         }
         else return false;

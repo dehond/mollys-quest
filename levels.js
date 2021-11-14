@@ -9,7 +9,7 @@ class Level {
         this.buildWalls();
         this.treasureImg = new Image();
         this.treasureImg.src = treasureImgPath;
-        this.treasureLocation = treasureLocation;
+        this.treasureLocation = [width*treasureLocation[0]/100, height*treasureLocation[1]/100];
     }
     buildWalls() {
         for (let wall of this.walls) {
@@ -42,7 +42,7 @@ class Level {
         }
     }
     drawTreasure(ctx) {
-        ctx.drawImage(this.treasureImg, this.treasureLocation[0]*width/100 - 25, this.treasureLocation[1]*height/100 - 25, 50, 50);
+        ctx.drawImage(this.treasureImg, this.treasureLocation[0] - 25, this.treasureLocation[1] - 25, 50, 50);
     }
 }
 

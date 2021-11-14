@@ -1,6 +1,7 @@
 var Typewriter = require('typewriter-effect');
 var Molly = require('./molly');
 var Levels = require('./levels');
+var Dialog = require('./dialogControl');
 require('./dialogControl');
 
 const canvas = document.getElementById('game');
