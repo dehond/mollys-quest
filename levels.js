@@ -13,7 +13,7 @@ class Level {
         this.treasureImg = new Image();
         this.treasureImg.src = treasureImgPath;
         this.treasureLocation = [width*treasureLocation[0]/100, height*treasureLocation[1]/100];
-        this.finishLevel = finishLevelAction;
+        this.finishLevelAction = finishLevelAction;
     }
     buildWalls() {
         for (let wall of this.walls) {
@@ -56,6 +56,11 @@ class Level {
     drawTreasure(ctx) {
         ctx.drawImage(this.treasureImg, this.treasureLocation[0] - 25, this.treasureLocation[1] - 25, 50, 50);
     }
+    finishLevel() {
+        molly.inlevel = false;
+        this.finishLevelAction();
+        molly.currentLevel += 1;
+    }
 }
 
 
@@ -74,7 +79,7 @@ Levels = [new Level([[20, 0, 0, 30],
     [85, 45, 0, 15]
 ], "key.png", [77.5, 50], () => {
     dialog.showDialogBox();
-    dialog.displayMessages(['Found!', 'No really!'], [null, null]);
+    dialog.displayMessages(['Found!', 'No really!'], [null, null, () => {console.log("bla")}]);
 }
 )];
 
