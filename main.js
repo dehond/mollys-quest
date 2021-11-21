@@ -93,43 +93,11 @@ class Dialog {
 let Levels = require('./levels');
 let dialog = new Dialog();
 module.exports = dialog;
-
-// let messages = [`Er was eens een mannetje, in het midden van het land,<br>
-//                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
-//                 Een scheetje, een boertje, voor niemand een genotje,<br>
-//                 En als hoogtepunt: 'Broeder, wilt u soms mijn snotje?'`,
-
-//                 `Dat kon zo niet langer, er was geen houden meer aan,<br>
-//                 Tot Sint eens zei: 'Hij zal mee naar Spanje moeten gaan.'<br>
-//                 En zo geschiedde, in het holst van de nacht,<br>
-//                 Werd deze meneer per zak naar de boot gebracht.`,
-
-//                 `Sint had zich echter op een cruciaal punt verkeken,<br>
-//                 en het scheelde niet veel, of het plan was eronder bezweken.<br>
-//                 Het was tijdens de ontvoering, hij ging het huis bijna weer uit<br>
-//                 Maar plots hing daar Molly aan zijn kuit!`,
-
-//                 `Ze beet door, haar tandjes wisten niet van wijken,<br>
-//                 Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
-//                 Een soepele worp in de richting van het bos,<br>
-//                 En Molly rende er achteraan, haar tandjes waren los.
-//                 `,
-
-//                 `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
-//                 Maar misschien kun jij haar kunt helpen?<br>
-//                 Zoek de baconsleutels in het huis,<br>
-//                 En haal het mannetje uit de Sint z'n kluis.
-//                 `
-//             ];
-
-// let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
-// dialog.displayMessages(messages, actions);
-
-// Need this for click function to work.
 window.dialog = dialog;
 },{"./levels":2,"./molly":3,"typewriter-effect/dist/core":8}],2:[function(require,module,exports){
 var molly = require('./molly');
 var dialog = require('./dialogControl');
+var spotlight = require('./spotlight');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -160,7 +128,7 @@ class Level {
         molly.heading = "right";
         molly.runTo(100, 100);
         molly.inlevel = true;
-        window.spotlight.showSpotlight();
+        spotlight.showSpotlight();
     }
     drawLevel(ctx) {
         ctx.save();
@@ -229,7 +197,7 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 `,
 
                 `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
-                Maar misschien kun jij haar kunt helpen?<br>
+                Maar misschien dat jij haar kunt helpen?<br>
                 Zoek de baconsleutels in het huis,<br>
                 En haal het mannetje uit de Sint z'n kluis.
                 `
@@ -239,7 +207,8 @@ let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-1
 dialog.displayMessages(messages, actions);
 
 module.exports = Levels;
-},{"./dialogControl":1,"./molly":3}],3:[function(require,module,exports){
+},{"./dialogControl":1,"./molly":3,"./spotlight":11}],3:[function(require,module,exports){
+var spotlight = require('./spotlight');
 const canvas = document.getElementById('game');
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -414,7 +383,7 @@ let molly = new Molly();
 molly.drawMolly();
 module.exports = new Molly();
 let Levels = require('./levels');
-},{"./levels":2}],4:[function(require,module,exports){
+},{"./levels":2,"./spotlight":11}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -2889,8 +2858,6 @@ if (process.env.NODE_ENV === 'production') {
 }).call(this)}).call(this,require('_process'))
 },{"_process":12,"react":7}],10:[function(require,module,exports){
 var spotlight = require('./spotlight');
-window.spotlight = spotlight;
-
 var Typewriter = require('typewriter-effect');
 var molly = require('./molly');
 var Levels = require('./levels');

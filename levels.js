@@ -1,5 +1,6 @@
 var molly = require('./molly');
 var dialog = require('./dialogControl');
+var spotlight = require('./spotlight');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -30,7 +31,7 @@ class Level {
         molly.heading = "right";
         molly.runTo(100, 100);
         molly.inlevel = true;
-        window.spotlight.showSpotlight();
+        spotlight.showSpotlight();
     }
     drawLevel(ctx) {
         ctx.save();
@@ -99,7 +100,7 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 `,
 
                 `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
-                Maar misschien kun jij haar kunt helpen?<br>
+                Maar misschien dat jij haar kunt helpen?<br>
                 Zoek de baconsleutels in het huis,<br>
                 En haal het mannetje uit de Sint z'n kluis.
                 `

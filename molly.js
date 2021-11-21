@@ -1,3 +1,4 @@
+var spotlight = require('./spotlight');
 const canvas = document.getElementById('game');
 let width = window.innerWidth;
 let height = window.innerHeight;

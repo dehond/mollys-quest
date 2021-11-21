@@ -1,6 +1,4 @@
 var spotlight = require('./spotlight');
-window.spotlight = spotlight;
-
 var Typewriter = require('typewriter-effect');
 var molly = require('./molly');
 var Levels = require('./levels');
