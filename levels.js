@@ -1,17 +1,18 @@
 var molly = require('./molly');
-// var dialog = require('./dialogControl');
+var dialog = require('./dialogControl');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
 class Level {
     // Wall defined as [x0, y0, width, height] where they're all between 0 and 100
-    constructor(walls, treasureImgPath, treasureLocation) {
+    constructor(walls, treasureImgPath, treasureLocation, finishLevelAction) {
         this.walls = walls;
         this.wallpaths = [];
         this.buildWalls();
         this.treasureImg = new Image();
         this.treasureImg.src = treasureImgPath;
         this.treasureLocation = [width*treasureLocation[0]/100, height*treasureLocation[1]/100];
+        this.finishLevel = finishLevelAction;
     }
     buildWalls() {
         for (let wall of this.walls) {
@@ -70,6 +71,41 @@ Levels = [new Level([[20, 0, 0, 30],
     [65, 60, 25, 0],
     [70, 30, 0, 30],
     [85, 45, 0, 15]
-], "key.png", [77.5, 50])];
+], "key.png", [77.5, 50], () => {
+    dialog.showDialogBox();
+    dialog.displayMessages(['Found!', 'No really!'], [null, null]);
+}
+)];
+
+let messages = [`Er was eens een mannetje, in het midden van het land,<br>
+                Die zich niet altijd gedroeg; wie had hem in de hand?<br>
+                Een scheetje, een boertje, voor niemand een genotje,<br>
+                En als hoogtepunt: 'Broeder, wilt u soms mijn snotje?'`,
+
+                `Dat kon zo niet langer, er was geen houden meer aan,<br>
+                Tot Sint eens zei: 'Hij zal mee naar Spanje moeten gaan.'<br>
+                En zo geschiedde, in het holst van de nacht,<br>
+                Werd deze meneer per zak naar de boot gebracht.`,
+
+                `Sint had zich echter op een cruciaal punt verkeken,<br>
+                en het scheelde niet veel, of het plan was eronder bezweken.<br>
+                Het was tijdens de ontvoering, hij ging het huis bijna weer uit<br>
+                Maar plots hing daar Molly aan zijn kuit!`,
+
+                `Ze beet door, haar tandjes wisten niet van wijken,<br>
+                Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
+                Een soepele worp in de richting van het bos,<br>
+                En Molly rende er achteraan, haar tandjes waren los.
+                `,
+
+                `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
+                Maar misschien kun jij haar kunt helpen?<br>
+                Zoek de baconsleutels in het huis,<br>
+                En haal het mannetje uit de Sint z'n kluis.
+                `
+            ];
+
+let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
+dialog.displayMessages(messages, actions);
 
 module.exports = Levels;

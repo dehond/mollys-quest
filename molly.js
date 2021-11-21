@@ -1,7 +1,4 @@
 const canvas = document.getElementById('game');
-
-
-
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -24,8 +21,9 @@ class Molly {
     heading = "left";
     scale = 0.5;
     visible = true;
-    sptl = new Path2D();
+    sptl = new Path2D(); // This will be the clip path of the spotlight
     inlevel = false;
+    currentLevel = 0;
     drawMolly() {
         this.sptl = new Path2D();
         this.sptl.moveTo(spotlight.radius*spotlight.pts[0][0] + this.position[0], spotlight.radius*spotlight.pts[0][1] + this.position[1]);
@@ -142,7 +140,7 @@ class Molly {
         }
     }
     checkWallCollision() {
-        let wallpts = Levels[0].wallpaths.flat();
+        let wallpts = Levels[this.currentLevel].wallpaths.flat();
         let threshold = 20;
         for (let wallpt of wallpts) {
             let dx = this.position[0] + this.velocity[0] - wallpt[0];
@@ -159,10 +157,11 @@ class Molly {
         return false;
     }
     checkTreasureFound() {
-        let dx = this.position[0] - Levels[0].treasureLocation[0];
-        let dy = this.position[1] - Levels[0].treasureLocation[1];
+        let dx = this.position[0] - Levels[this.currentLevel].treasureLocation[0];
+        let dy = this.position[1] - Levels[this.currentLevel].treasureLocation[1];
         if (Math.sqrt(dx**2 + dy**2) < 20) {
-            console.log("found!")
+            Levels[this.currentLevel].finishLevel();
+            this.inlevel = false;
             return true;
         }
         else return false;

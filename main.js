@@ -94,54 +94,55 @@ let Levels = require('./levels');
 let dialog = new Dialog();
 module.exports = dialog;
 
-let messages = [`Er was eens een mannetje, in het midden van het land,<br>
-                Die zich niet altijd gedroeg; wie had hem in de hand?<br>
-                Een scheetje, een boertje, voor niemand een genotje,<br>
-                En als hoogtepunt: 'Broeder, wilt u soms mijn snotje?'`,
+// let messages = [`Er was eens een mannetje, in het midden van het land,<br>
+//                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
+//                 Een scheetje, een boertje, voor niemand een genotje,<br>
+//                 En als hoogtepunt: 'Broeder, wilt u soms mijn snotje?'`,
 
-                `Dat kon zo niet langer, er was geen houden meer aan,<br>
-                Tot Sint eens zei: 'Hij zal mee naar Spanje moeten gaan.'<br>
-                En zo geschiedde, in het holst van de nacht,<br>
-                Werd deze meneer per zak naar de boot gebracht.`,
+//                 `Dat kon zo niet langer, er was geen houden meer aan,<br>
+//                 Tot Sint eens zei: 'Hij zal mee naar Spanje moeten gaan.'<br>
+//                 En zo geschiedde, in het holst van de nacht,<br>
+//                 Werd deze meneer per zak naar de boot gebracht.`,
 
-                `Sint had zich echter op een cruciaal punt verkeken,<br>
-                en het scheelde niet veel, of het plan was eronder bezweken.<br>
-                Het was tijdens de ontvoering, hij ging het huis bijna weer uit<br>
-                Maar plots hing daar Molly aan zijn kuit!`,
+//                 `Sint had zich echter op een cruciaal punt verkeken,<br>
+//                 en het scheelde niet veel, of het plan was eronder bezweken.<br>
+//                 Het was tijdens de ontvoering, hij ging het huis bijna weer uit<br>
+//                 Maar plots hing daar Molly aan zijn kuit!`,
 
-                `Ze beet door, haar tandjes wisten niet van wijken,<br>
-                Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
-                Een soepele worp in de richting van het bos,<br>
-                En Molly rende er achteraan, haar tandjes waren los.
-                `,
+//                 `Ze beet door, haar tandjes wisten niet van wijken,<br>
+//                 Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
+//                 Een soepele worp in de richting van het bos,<br>
+//                 En Molly rende er achteraan, haar tandjes waren los.
+//                 `,
 
-                `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
-                Maar misschien kun jij haar kunt helpen?<br>
-                Zoek de baconsleutels in het huis,<br>
-                En haal het mannetje uit de Sint z'n kluis.
-                `
-            ];
+//                 `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
+//                 Maar misschien kun jij haar kunt helpen?<br>
+//                 Zoek de baconsleutels in het huis,<br>
+//                 En haal het mannetje uit de Sint z'n kluis.
+//                 `
+//             ];
 
-let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
-dialog.displayMessages(messages, actions);
+// let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
+// dialog.displayMessages(messages, actions);
 
 // Need this for click function to work.
 window.dialog = dialog;
 },{"./levels":2,"./molly":3,"typewriter-effect/dist/core":8}],2:[function(require,module,exports){
 var molly = require('./molly');
-// var dialog = require('./dialogControl');
+var dialog = require('./dialogControl');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
 class Level {
     // Wall defined as [x0, y0, width, height] where they're all between 0 and 100
-    constructor(walls, treasureImgPath, treasureLocation) {
+    constructor(walls, treasureImgPath, treasureLocation, finishLevelAction) {
         this.walls = walls;
         this.wallpaths = [];
         this.buildWalls();
         this.treasureImg = new Image();
         this.treasureImg.src = treasureImgPath;
         this.treasureLocation = [width*treasureLocation[0]/100, height*treasureLocation[1]/100];
+        this.finishLevel = finishLevelAction;
     }
     buildWalls() {
         for (let wall of this.walls) {
@@ -200,14 +201,46 @@ Levels = [new Level([[20, 0, 0, 30],
     [65, 60, 25, 0],
     [70, 30, 0, 30],
     [85, 45, 0, 15]
-], "key.png", [77.5, 50])];
+], "key.png", [77.5, 50], () => {
+    dialog.showDialogBox();
+    dialog.displayMessages(['Found!', 'No really!'], [null, null]);
+}
+)];
+
+let messages = [`Er was eens een mannetje, in het midden van het land,<br>
+                Die zich niet altijd gedroeg; wie had hem in de hand?<br>
+                Een scheetje, een boertje, voor niemand een genotje,<br>
+                En als hoogtepunt: 'Broeder, wilt u soms mijn snotje?'`,
+
+                `Dat kon zo niet langer, er was geen houden meer aan,<br>
+                Tot Sint eens zei: 'Hij zal mee naar Spanje moeten gaan.'<br>
+                En zo geschiedde, in het holst van de nacht,<br>
+                Werd deze meneer per zak naar de boot gebracht.`,
+
+                `Sint had zich echter op een cruciaal punt verkeken,<br>
+                en het scheelde niet veel, of het plan was eronder bezweken.<br>
+                Het was tijdens de ontvoering, hij ging het huis bijna weer uit<br>
+                Maar plots hing daar Molly aan zijn kuit!`,
+
+                `Ze beet door, haar tandjes wisten niet van wijken,<br>
+                Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
+                Een soepele worp in de richting van het bos,<br>
+                En Molly rende er achteraan, haar tandjes waren los.
+                `,
+
+                `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
+                Maar misschien kun jij haar kunt helpen?<br>
+                Zoek de baconsleutels in het huis,<br>
+                En haal het mannetje uit de Sint z'n kluis.
+                `
+            ];
+
+let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
+dialog.displayMessages(messages, actions);
 
 module.exports = Levels;
-},{"./molly":3}],3:[function(require,module,exports){
+},{"./dialogControl":1,"./molly":3}],3:[function(require,module,exports){
 const canvas = document.getElementById('game');
-
-
-
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -230,8 +263,9 @@ class Molly {
     heading = "left";
     scale = 0.5;
     visible = true;
-    sptl = new Path2D();
+    sptl = new Path2D(); // This will be the clip path of the spotlight
     inlevel = false;
+    currentLevel = 0;
     drawMolly() {
         this.sptl = new Path2D();
         this.sptl.moveTo(spotlight.radius*spotlight.pts[0][0] + this.position[0], spotlight.radius*spotlight.pts[0][1] + this.position[1]);
@@ -348,7 +382,7 @@ class Molly {
         }
     }
     checkWallCollision() {
-        let wallpts = Levels[0].wallpaths.flat();
+        let wallpts = Levels[this.currentLevel].wallpaths.flat();
         let threshold = 20;
         for (let wallpt of wallpts) {
             let dx = this.position[0] + this.velocity[0] - wallpt[0];
@@ -365,10 +399,11 @@ class Molly {
         return false;
     }
     checkTreasureFound() {
-        let dx = this.position[0] - Levels[0].treasureLocation[0];
-        let dy = this.position[1] - Levels[0].treasureLocation[1];
+        let dx = this.position[0] - Levels[this.currentLevel].treasureLocation[0];
+        let dy = this.position[1] - Levels[this.currentLevel].treasureLocation[1];
         if (Math.sqrt(dx**2 + dy**2) < 20) {
-            console.log("found!")
+            Levels[this.currentLevel].finishLevel();
+            this.inlevel = false;
             return true;
         }
         else return false;
@@ -2917,7 +2952,7 @@ window.onresize = function() {
 // window.spotlight = spotlight;
 window.molly = molly;
 // window.startLevel = startLevel;
-// startLevel(1)
+// Levels[0].startLevel();
 // Levels[0].drawWall(ctx);
 },{"./dialogControl":1,"./levels":2,"./molly":3,"typewriter-effect":9}],11:[function(require,module,exports){
 // shim for using process in browser

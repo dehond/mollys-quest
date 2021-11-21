@@ -62,5 +62,5 @@ window.onresize = function() {
 // window.spotlight = spotlight;
 window.molly = molly;
 // window.startLevel = startLevel;
-// startLevel(1)
+// Levels[0].startLevel();
 // Levels[0].drawWall(ctx);
