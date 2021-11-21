@@ -1,5 +1,5 @@
 var molly = require('./molly');
-var dialog = require('./dialogControl');
+// var dialog = require('./dialogControl');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -70,6 +70,6 @@ Levels = [new Level([[20, 0, 0, 30],
     [65, 60, 25, 0],
     [70, 30, 0, 30],
     [85, 45, 0, 15]
-], "treasures/key.png", [77.5, 50])];
+], "key.png", [77.5, 50])];
 
 module.exports = Levels;

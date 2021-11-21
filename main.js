@@ -3,7 +3,6 @@
 // let el = document.getElementById("dialogBox");
 // el.style.display = "none";
 //////
-let Levels = require('./levels');
 var Typewriter = require('typewriter-effect/dist/core');
 let molly = require('./molly');
 
@@ -91,6 +90,10 @@ class Dialog {
     }
 }
 
+let Levels = require('./levels');
+let dialog = new Dialog();
+module.exports = dialog;
+
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
                 Een scheetje, een boertje, voor niemand een genotje,<br>
@@ -120,14 +123,12 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
             ];
 
 let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
-let dialog = new Dialog();
 dialog.displayMessages(messages, actions);
 
 window.dialog = dialog;
-module.exports = dialog;
 },{"./levels":2,"./molly":3,"typewriter-effect/dist/core":8}],2:[function(require,module,exports){
 var molly = require('./molly');
-var dialog = require('./dialogControl');
+// var dialog = require('./dialogControl');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -198,10 +199,10 @@ Levels = [new Level([[20, 0, 0, 30],
     [65, 60, 25, 0],
     [70, 30, 0, 30],
     [85, 45, 0, 15]
-], "treasures/key.png", [77.5, 50])];
+], "key.png", [77.5, 50])];
 
 module.exports = Levels;
-},{"./dialogControl":1,"./molly":3}],3:[function(require,module,exports){
+},{"./molly":3}],3:[function(require,module,exports){
 const canvas = document.getElementById('game');
 
 
@@ -2916,7 +2917,7 @@ window.onresize = function() {
 window.molly = molly;
 // window.startLevel = startLevel;
 // startLevel(1)
-Levels[0].drawWall(ctx);
+// Levels[0].drawWall(ctx);
 },{"./dialogControl":1,"./levels":2,"./molly":3,"typewriter-effect":9}],11:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

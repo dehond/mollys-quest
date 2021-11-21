@@ -2,7 +2,6 @@
 // let el = document.getElementById("dialogBox");
 // el.style.display = "none";
 //////
-let Levels = require('./levels');
 var Typewriter = require('typewriter-effect/dist/core');
 let molly = require('./molly');
 
@@ -90,6 +89,10 @@ class Dialog {
     }
 }
 
+let Levels = require('./levels');
+let dialog = new Dialog();
+module.exports = dialog;
+
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
                 Een scheetje, een boertje, voor niemand een genotje,<br>
@@ -119,8 +122,6 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
             ];
 
 let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
-let dialog = new Dialog();
 dialog.displayMessages(messages, actions);
 
 window.dialog = dialog;
-module.exports = dialog;

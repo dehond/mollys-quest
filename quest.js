@@ -63,4 +63,4 @@ window.onresize = function() {
 window.molly = molly;
 // window.startLevel = startLevel;
 // startLevel(1)
-Levels[0].drawWall(ctx);
+// Levels[0].drawWall(ctx);
