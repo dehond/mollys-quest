@@ -1,3 +1,5 @@
+var molly = require('./molly');
+var dialog = require('./dialogControl');
 let width = window.innerWidth;
 let height = window.innerHeight;
 
@@ -23,15 +25,23 @@ class Level {
             this.wallpaths.push(wallpoints);
         }
     }
+    startLevel() {
+        molly.heading = "right";
+        molly.runTo(100, 100);
+        molly.inlevel = true;
+        window.spotlight.showSpotlight();
+    }
     drawLevel(ctx) {
+        ctx.save();
+        ctx.clip(molly.sptl);
         this.drawWall(ctx);
         this.drawTreasure(ctx);
+        ctx.restore();
     }
     drawWall(ctx) {
         ctx.strokeStyle = "white";
         ctx.lineCap = "square";
         ctx.lineWidth = 15;
-        ctx.stroke
         for (let wallpath of this.wallpaths) {
             ctx.beginPath();
             ctx.moveTo(wallpath[0][0], wallpath[0][1]);

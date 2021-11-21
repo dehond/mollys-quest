@@ -1,23 +1,3 @@
-var Typewriter = require('typewriter-effect');
-var Molly = require('./molly');
-var Levels = require('./levels');
-var Dialog = require('./dialogControl');
-require('./dialogControl');
-
-const canvas = document.getElementById('game');
-
-let width = window.innerWidth;
-let height = window.innerHeight;
-
-canvas.width = width;
-canvas.height = height;
-const ctx = canvas.getContext('2d');
-
-let img1 = new Image();
-let img2 = new Image();
-img1.src = 'molly1-pixel.png';
-img2.src = 'molly2-pixel.png';
-
 class Spotlight {
     maxradius = 70;
     radius = 0;
@@ -34,8 +14,28 @@ class Spotlight {
     }
 }
 
-let molly = new Molly();
 let spotlight = new Spotlight();
+window.spotlight = spotlight;
+
+var Typewriter = require('typewriter-effect');
+var molly = require('./molly');
+var Levels = require('./levels');
+var dialog = require('./dialogControl');
+
+const canvas = document.getElementById('game');
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+canvas.width = width;
+canvas.height = height;
+const ctx = canvas.getContext('2d');
+
+let img1 = new Image();
+let img2 = new Image();
+img1.src = 'molly1-pixel.png';
+img2.src = 'molly2-pixel.png';
+
 
 window.requestAnimationFrame(animate);
 
@@ -50,14 +50,6 @@ function animate() {
 }
 
 
-function startLevel(num) {
-    if (num == 1) {
-        molly.heading = "right";
-        molly.position = [100, 100];
-        spotlight.showSpotlight();
-    }
-}
-
 document.onkeydown = molly.moveMolly.bind(molly);
 document.onkeyup = molly.stopMolly.bind(molly);
 window.onresize = function() {
@@ -67,8 +59,8 @@ window.onresize = function() {
     canvas.height = height;
 }
 
-window.spotlight = spotlight;
+// window.spotlight = spotlight;
 window.molly = molly;
-window.startLevel = startLevel;
+// window.startLevel = startLevel;
 // startLevel(1)
 Levels[0].drawWall(ctx);

@@ -1,6 +1,6 @@
 const canvas = document.getElementById('game');
 
-let Levels = require('./levels');
+
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -24,78 +24,82 @@ class Molly {
     heading = "left";
     scale = 0.5;
     visible = true;
+    sptl = new Path2D();
+    inlevel = false;
     drawMolly() {
-        let sptl = new Path2D();
-        sptl.moveTo(spotlight.radius*spotlight.pts[0][0] + molly.position[0], spotlight.radius*spotlight.pts[0][1] + molly.position[1]);
+        this.sptl = new Path2D();
+        this.sptl.moveTo(spotlight.radius*spotlight.pts[0][0] + this.position[0], spotlight.radius*spotlight.pts[0][1] + this.position[1]);
         for (let i = 1; i < spotlight.pts.length; i++){
-            sptl.lineTo(spotlight.radius*spotlight.pts[i][0] + molly.position[0], spotlight.radius*spotlight.pts[i][1] + molly.position[1]);
+            this.sptl.lineTo(spotlight.radius*spotlight.pts[i][0] + this.position[0], spotlight.radius*spotlight.pts[i][1] + this.position[1]);
         }
-        sptl.closePath();
+        this.sptl.closePath();
         ctx.save();
-        ctx.clip(sptl);
+        ctx.clip(this.sptl);
         ctx.fillStyle = '#a3a3a3';
         ctx.fillRect(0, 0, width, height);
         ctx.restore();
     
         ctx.save();
-        ctx.clip(sptl);
-        ctx.translate(molly.position[0], molly.position[1]);
-        if (molly.heading == "right") {
-            ctx.scale(-molly.scale, molly.scale);
+        ctx.clip(this.sptl);
+        ctx.translate(this.position[0], this.position[1]);
+        if (this.heading == "right") {
+            ctx.scale(-this.scale, this.scale);
         }
-        else if (molly.heading == "down") {
-          ctx.scale(-molly.scale, molly.scale);
+        else if (this.heading == "down") {
+          ctx.scale(-this.scale, this.scale);
           ctx.rotate(-Math.PI/2);
         }
-        else if (molly.heading == "up") {
-          ctx.scale(molly.scale, molly.scale);
+        else if (this.heading == "up") {
+          ctx.scale(this.scale, this.scale);
           ctx.rotate(Math.PI/2);
         }
         else {
-          ctx.scale(molly.scale, molly.scale);
+          ctx.scale(this.scale, this.scale);
         }
-        ctx.drawImage(molly.sprite, -molly.sprite.width/2, -molly.sprite.height/2);
-        if (molly.velocity[0] || molly.velocity[1]){
-            molly.movecounter += 1;
-            if (molly.movecounter % 10 == 0) {
-                (molly.sprite == img1) ? (molly.sprite = img2) : (molly.sprite = img1);
+        ctx.drawImage(this.sprite, -this.sprite.width/2, -this.sprite.height/2);
+        if (this.velocity[0] || this.velocity[1]){
+            this.movecounter += 1;
+            if (this.movecounter % 10 == 0) {
+                (this.sprite == img1) ? (this.sprite = img2) : (this.sprite = img1);
             }
         }
         ctx.restore();
     
-        // Orient Molly left/right/up/down
-        if (molly.velocity[0]) {
-          (molly.velocity[0] > 0 ? molly.heading = "right" : molly.heading = "left");
+        // Orient this left/right/up/down
+        if (this.velocity[0]) {
+          (this.velocity[0] > 0 ? this.heading = "right" : this.heading = "left");
         }
-        else if (molly.velocity[1]) {
-          (molly.velocity[1] > 0 ? molly.heading = "down" : molly.heading = "up");
+        else if (this.velocity[1]) {
+          (this.velocity[1] > 0 ? this.heading = "down" : this.heading = "up");
         }
-    
-        // Stop Molly if she runs into the wall
-        if ( (molly.position[0] - molly.boundingBox[0]/4) <= 0 && molly.velocity[0] < 0 ) {
-            molly.velocity[0] = 0;
-        } else if ( (molly.position[0] + molly.boundingBox[0]/4) >= width && molly.velocity[0] > 0 ) {
-            molly.velocity[0] = 0;
-        }
-        if ( (molly.position[1] - molly.boundingBox[1]/4) <= 0 && molly.velocity[1] < 0 ) {
-            molly.velocity[1] = 0;
-        } else if ( (molly.position[1] + molly.boundingBox[1]/4) >= height && molly.velocity[1] > 0 ) {
-            molly.velocity[1] = 0;
-        }
+        
+        if (this.inlevel) {
+            // Stop Molly if she runs into the wall
+            if ( (this.position[0] - this.boundingBox[0]/4) <= 0 && this.velocity[0] < 0 ) {
+                this.velocity[0] = 0;
+            } else if ( (this.position[0] + this.boundingBox[0]/4) >= width && this.velocity[0] > 0 ) {
+                this.velocity[0] = 0;
+            }
+            if ( (this.position[1] - this.boundingBox[1]/4) <= 0 && this.velocity[1] < 0 ) {
+                this.velocity[1] = 0;
+            } else if ( (this.position[1] + this.boundingBox[1]/4) >= height && this.velocity[1] > 0 ) {
+                this.velocity[1] = 0;
+            }
 
-        // Only move Molly if she's not bumping into the maze
-        let collision = this.checkWallCollision();
-        if (!collision) {
-            this.position[0] += this.velocity[0];
-            this.position[1] += this.velocity[1];
-        } else if (collision == "h") {
-            this.velocity[0] = 0;
-        } else if (collision == "v") {
-            this.velocity[1] = 0;
-        }
+            // Only move Molly if she's not bumping into the maze
+            let collision = this.checkWallCollision();
+            if (!collision) {
+                this.position[0] += this.velocity[0];
+                this.position[1] += this.velocity[1];
+            } else if (collision == "h") {
+                this.velocity[0] = 0;
+            } else if (collision == "v") {
+                this.velocity[1] = 0;
+            }
 
-        // Has Molly found the treasure yet?
-        this.checkTreasureFound();
+            // Has Molly found the treasure yet?
+            this.checkTreasureFound();
+        }
     }
     runTo(x, y) {
         let _this = this;
@@ -103,7 +107,7 @@ class Molly {
             _this.position[0] += -Math.sign(_this.position[0] - x);
             _this.position[1] += -Math.sign(_this.position[1] - y);
             if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
-        }, 5)
+        }, 1)
     }
     
     step = 4;
@@ -165,4 +169,7 @@ class Molly {
     }
 }
 
-module.exports = Molly;
+let molly = new Molly();
+molly.drawMolly();
+module.exports = new Molly();
+let Levels = require('./levels');

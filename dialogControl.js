@@ -2,8 +2,9 @@
 // let el = document.getElementById("dialogBox");
 // el.style.display = "none";
 //////
-
+let Levels = require('./levels');
 var Typewriter = require('typewriter-effect/dist/core');
+let molly = require('./molly');
 
 class Dialog {
     constructor() {
@@ -108,10 +109,16 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Tot Sint haar naar bacon riekende sleutels zag prijken.<br>
                 Een soepele worp in de richting van het bos,<br>
                 En Molly rende er achteraan, haar tandjes waren los.
+                `,
+
+                `Bij thuiskomst was Molly's verdriet niet te stelpen,<br>
+                Maar misschien kun jij haar kunt helpen?<br>
+                Zoek de baconsleutels in het huis,<br>
+                En haal het mannetje uit de Sint z'n kluis.
                 `
             ];
 
-let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), () => startLevel(1)];
+let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
 let dialog = new Dialog();
 dialog.displayMessages(messages, actions);
 
