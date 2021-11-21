@@ -125,6 +125,7 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
 let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
 dialog.displayMessages(messages, actions);
 
+// Need this for click function to work.
 window.dialog = dialog;
 },{"./levels":2,"./molly":3,"typewriter-effect/dist/core":8}],2:[function(require,module,exports){
 var molly = require('./molly');
