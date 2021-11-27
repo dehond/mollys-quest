@@ -6,13 +6,14 @@ let height = window.innerHeight;
 
 class Level {
     // Wall defined as [x0, y0, width, height] where they're all between 0 and 100
-    constructor(walls, treasureImgPath, treasureLocation, finishLevelAction) {
+    constructor(walls, treasure, finishLevelAction) {
         this.walls = walls;
         this.wallpaths = [];
         this.buildWalls();
         this.treasureImg = new Image();
-        this.treasureImg.src = treasureImgPath;
-        this.treasureLocation = [width*treasureLocation[0]/100, height*treasureLocation[1]/100];
+        this.treasureImg.src = treasure.file;
+        this.treasureLocation = [width*treasure.location[0]/100, height*treasure.location[1]/100];
+        this.treasureSize = treasure.size;
         this.finishLevelAction = finishLevelAction;
     }
     buildWalls() {
@@ -55,7 +56,7 @@ class Level {
         }
     }
     drawTreasure(ctx) {
-        ctx.drawImage(this.treasureImg, this.treasureLocation[0] - 25, this.treasureLocation[1] - 25, 50, 50);
+        ctx.drawImage(this.treasureImg, this.treasureLocation[0] - this.treasureSize/2, this.treasureLocation[1] - this.treasureSize/2, this.treasureSize, this.treasureSize);
     }
     finishLevel() {
         molly.inlevel = false;
@@ -78,7 +79,8 @@ Levels = [new Level([[20, 0, 0, 30],
     [65, 60, 25, 0],
     [70, 30, 0, 30],
     [85, 45, 0, 15]
-], "key.png", [77.5, 50], () => {
+], {file: "key.png", location: [77.5, 50], size: 50},
+() => {
     dialog.showDialogBox();
     dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
     }
@@ -98,7 +100,7 @@ Levels.push(
         [65, 60, 25, 0],
         [70, 30, 0, 30],
         [85, 45, 0, 15]
-    ], "house.png", [77.5, 50],
+    ], {file: "house.png", location: [77.5, 50], size: 100},
     () => {
         dialog.showDialogBox();
         dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
