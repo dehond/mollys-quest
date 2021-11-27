@@ -30,12 +30,13 @@ class Level {
     startLevel() {
         molly.heading = "right";
         molly.runTo(100, 100);
-        molly.inlevel = true;
+        setTimeout(() => {molly.inlevel = true}, 500)
+        // molly.inlevel = true;
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
         ctx.save();
-        ctx.clip(molly.sptl);
+        // ctx.clip(molly.sptl);
         this.drawWall(ctx);
         this.drawTreasure(ctx);
         ctx.restore();
@@ -79,9 +80,31 @@ Levels = [new Level([[20, 0, 0, 30],
     [85, 45, 0, 15]
 ], "key.png", [77.5, 50], () => {
     dialog.showDialogBox();
-    dialog.displayMessages(['Found!', 'No really!'], [null, null, () => {console.log("bla")}]);
-}
+    dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+    }
 )];
+
+Levels.push(
+    new Level([[20, 0, 0, 30],
+        [20, 40, 0, 50],
+        [20, 50, 20, 0],
+        [30, 10, 0, 50],
+        [40, 0, 0, 50],
+        [30, 90, 0, 10],
+        [30, 75, 40, 0],
+        [50, 60, 0, 40],
+        [50, 90, 30, 0],
+        [50, 30, 50, 0],
+        [65, 60, 25, 0],
+        [70, 30, 0, 30],
+        [85, 45, 0, 15]
+    ], "house.png", [77.5, 50],
+    () => {
+        dialog.showDialogBox();
+        dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+        }
+    )
+)
 
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>

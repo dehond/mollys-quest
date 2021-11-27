@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 ////// HIDE DIALOG
-// let el = document.getElementById("dialogBox");
-// el.style.display = "none";
+let el = document.getElementById("dialogBox");
+el.style.display = "none";
 //////
 var Typewriter = require('typewriter-effect/dist/core');
 let molly = require('./molly');
@@ -127,12 +127,13 @@ class Level {
     startLevel() {
         molly.heading = "right";
         molly.runTo(100, 100);
-        molly.inlevel = true;
+        setTimeout(() => {molly.inlevel = true}, 500)
+        // molly.inlevel = true;
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
         ctx.save();
-        ctx.clip(molly.sptl);
+        // ctx.clip(molly.sptl);
         this.drawWall(ctx);
         this.drawTreasure(ctx);
         ctx.restore();
@@ -176,9 +177,31 @@ Levels = [new Level([[20, 0, 0, 30],
     [85, 45, 0, 15]
 ], "key.png", [77.5, 50], () => {
     dialog.showDialogBox();
-    dialog.displayMessages(['Found!', 'No really!'], [null, null, () => {console.log("bla")}]);
-}
+    dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+    }
 )];
+
+Levels.push(
+    new Level([[20, 0, 0, 30],
+        [20, 40, 0, 50],
+        [20, 50, 20, 0],
+        [30, 10, 0, 50],
+        [40, 0, 0, 50],
+        [30, 90, 0, 10],
+        [30, 75, 40, 0],
+        [50, 60, 0, 40],
+        [50, 90, 30, 0],
+        [50, 30, 50, 0],
+        [65, 60, 25, 0],
+        [70, 30, 0, 30],
+        [85, 45, 0, 15]
+    ], "house.png", [77.5, 50],
+    () => {
+        dialog.showDialogBox();
+        dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+        }
+    )
+)
 
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
@@ -2891,7 +2914,7 @@ function animate() {
     if (molly.visible) {
         molly.drawMolly();
     }
-    Levels[0].drawLevel(ctx);
+    Levels[molly.currentLevel].drawLevel(ctx);
     window.requestAnimationFrame(animate);
 }
 
@@ -2907,13 +2930,15 @@ window.onresize = function() {
 
 // window.spotlight = spotlight;
 window.molly = molly;
+molly.runTo(100, 100);
+molly.inlevel = true;
 // window.startLevel = startLevel;
 // Levels[0].startLevel();
 // Levels[0].drawWall(ctx);
 },{"./dialogControl":1,"./levels":2,"./molly":3,"./spotlight":11,"typewriter-effect":9}],11:[function(require,module,exports){
 class Spotlight {
     maxradius = 100;
-    radius = 0;
+    radius = 100;
     pts =[...Array(500).keys()].map( (i) => [Math.floor(14*Math.cos(2*i*Math.PI/500 + 0.0001))/14, Math.floor(14*Math.sin(2*i*Math.PI/500 + 0.0001))/14] );
     showSpotlight() {
         let _this = this;
