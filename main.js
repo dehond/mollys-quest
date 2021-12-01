@@ -162,8 +162,9 @@ class Level {
     }
 }
 
+Levels = []
 
-Levels = [new Level([[20, 0, 0, 30],
+Levels.push(new Level([[20, 0, 0, 30],
     [20, 40, 0, 50],
     [20, 50, 20, 0],
     [30, 10, 0, 50],
@@ -179,31 +180,49 @@ Levels = [new Level([[20, 0, 0, 30],
 ], {file: "key.png", location: [77.5, 50], size: 50},
 () => {
     dialog.showDialogBox();
-    dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+    dialog.displayMessages(
+        [`Hoera, de sleutel is door Molly gevonden!<br>
+        Wisten we maar welk slot we hiermee openen konden.<br>
+        Je raadt het al, hij is natuurlijk voor de kluis,<br>
+        In de krochten van Sint zijn abductiehuis.
+        `,
+        `Zoek het huis, hier is een hint,<br>
+        Het is in het noordoosten dat je het vindt<br>
+        Doe voorzichtig, wees niet te stoer,<br>
+        Er liggen veel gevaren op de loer!
+        `], [null, null, Levels[molly.currentLevel].startLevel]);
     }
-)];
+));
 
 Levels.push(
-    new Level([[20, 0, 0, 30],
-        [20, 40, 0, 50],
-        [20, 50, 20, 0],
-        [30, 10, 0, 50],
-        [40, 0, 0, 50],
-        [30, 90, 0, 10],
-        [30, 75, 40, 0],
-        [50, 60, 0, 40],
-        [50, 90, 30, 0],
-        [50, 30, 50, 0],
-        [65, 60, 25, 0],
-        [70, 30, 0, 30],
-        [85, 45, 0, 15]
-    ], {file: "house.png", location: [77.5, 50], size: 100},
+    new Level([[0, 20, 62, 0],
+        [72, 0, 0, 90],
+        [10, 30, 62, 0],
+        [10, 40, 0, 50],
+        [20, 30, 0, 50],
+        [10, 80, 20, 0],
+        [20, 90, 40, 0],
+        [60, 90, 0, 10],
+        [40, 40, 0, 40],
+        [40, 80, 20, 0],
+        [60, 80, 0, 10],
+        [50, 50, 40, 0],
+        [50, 40, 13, 0],
+        [50, 40, 0, 10],
+        [30, 40, 0, 40],
+        [40, 60, 20, 0],
+        [60, 70, 0, 10],
+        [81, 60, 0, 40],
+        [90, 50, 0, 40]
+    ], {file: "house.png", location: [85, 15], size: 250},
     () => {
         dialog.showDialogBox();
         dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
         }
     )
 )
+
+
 
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 Die zich niet altijd gedroeg; wie had hem in de hand?<br>
