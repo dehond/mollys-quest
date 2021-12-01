@@ -67,6 +67,20 @@ class Level {
 
 Levels = []
 
+Levels.push(
+    new Level([[0, 20, 20, 0],
+        [30, 0, 0, 30],
+        [20, 40, 30, 0],
+        [40, 20, 20, 0]
+    ],
+        {file: "safe.png", location: [50, 50], size: 100},
+        () => {
+            dialog.showDialogBox();
+            dialog.displayMessages(['Null'], [null, Levels[molly.currentLevel].startLevel]);     
+        }
+    )
+)
+
 Levels.push(new Level([[20, 0, 0, 30],
     [20, 40, 0, 50],
     [20, 50, 20, 0],
@@ -124,6 +138,8 @@ Levels.push(
         }
     )
 )
+
+
 
 
 
