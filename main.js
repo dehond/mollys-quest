@@ -187,7 +187,7 @@ Levels.push(new Level([[20, 0, 0, 30],
         In de krochten van Sint zijn abductiehuis.
         `,
         `Zoek het huis, hier is een hint,<br>
-        Het is in het noordoosten dat je het vindt<br>
+        Het is in het noordoosten dat je het vindt.<br>
         Doe voorzichtig, wees niet te stoer,<br>
         Er liggen veel gevaren op de loer!
         `], [null, null, Levels[molly.currentLevel].startLevel]);
@@ -217,7 +217,18 @@ Levels.push(
     ], {file: "house.png", location: [85, 15], size: 250},
     () => {
         dialog.showDialogBox();
-        dialog.displayMessages(['Found!', 'No really!'], [null, null, Levels[molly.currentLevel].startLevel]);
+        dialog.displayMessages([
+            `Molly is ongeschonden bij het huis beland,<br>
+            En is nu een heel eind weg van haar warme mand.<br>
+            Zou het haar ook lukken om de kluis te vinden?<br>
+            Of wordt ze gedognapt door Sint die haar vast zal binden?`,
+            
+            `Wees op je hoede, en voor je het weet,
+            Geniet je weer van het mannetje z'n scheet.
+            Steek je sleutel in de kluis,
+            En ga dan rap samen naar huis!
+            `
+        ], [null, null, Levels[molly.currentLevel].startLevel]);
         }
     )
 )
@@ -239,7 +250,11 @@ Levels.push(
         () => {
             dialog.showDialogBox();
             dialog.displayMessages([
-                `Hoezee! Het mannetje is gevonden!`
+                `Hoera! Het mannetje is boven water!<br>
+                Het is weer een en al geschater.<br>
+                Als beloning hier een heuse prijs,<br>
+                Met wat ideeën voor heerlijk spijs.
+                `
             ], [null, null]);     
         }
     )
