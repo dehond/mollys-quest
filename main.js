@@ -164,20 +164,6 @@ class Level {
 
 Levels = []
 
-Levels.push(
-    new Level([[0, 20, 20, 0],
-        [30, 0, 0, 30],
-        [20, 40, 30, 0],
-        [40, 20, 20, 0]
-    ],
-        {file: "safe.png", location: [50, 50], size: 100},
-        () => {
-            dialog.showDialogBox();
-            dialog.displayMessages(['Null'], [null, Levels[molly.currentLevel].startLevel]);     
-        }
-    )
-)
-
 Levels.push(new Level([[20, 0, 0, 30],
     [20, 40, 0, 50],
     [20, 50, 20, 0],
@@ -236,8 +222,28 @@ Levels.push(
     )
 )
 
-
-
+Levels.push(
+    new Level([[0, 20, 20, 0],
+        [30, 0, 0, 30],
+        [10, 40, 60, 0],
+        [40, 20, 20, 0],
+        [50, 10, 0, 30],
+        [40, 40, 0, 30],
+        [70, 0, 0, 70],
+        [10, 80, 30, 0],
+        [40, 80, 0, 20],
+        [40, 70, 20, 0],
+        [60, 55, 0, 15]
+    ],
+        {file: "safe.png", location: [50, 50], size: 100},
+        () => {
+            dialog.showDialogBox();
+            dialog.displayMessages([
+                `Hoezee! Het mannetje is gevonden!`
+            ], [null, null]);     
+        }
+    )
+)
 
 
 let messages = [`Er was eens een mannetje, in het midden van het land,<br>
