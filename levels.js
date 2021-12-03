@@ -37,7 +37,7 @@ class Level {
     }
     drawLevel(ctx) {
         ctx.save();
-        // ctx.clip(molly.sptl);
+        ctx.clip(molly.sptl);
         this.drawWall(ctx);
         this.drawTreasure(ctx);
         ctx.restore();

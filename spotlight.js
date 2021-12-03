@@ -1,6 +1,6 @@
 class Spotlight {
     maxradius = 100;
-    radius = 100;
+    radius = 0;
     pts =[...Array(500).keys()].map( (i) => [Math.floor(14*Math.cos(2*i*Math.PI/500 + 0.0001))/14, Math.floor(14*Math.sin(2*i*Math.PI/500 + 0.0001))/14] );
     showSpotlight() {
         let _this = this;

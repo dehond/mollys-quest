@@ -1,6 +1,6 @@
 ////// HIDE DIALOG
-let el = document.getElementById("dialogBox");
-el.style.display = "none";
+// let el = document.getElementById("dialogBox");
+// el.style.display = "none";
 //////
 var Typewriter = require('typewriter-effect/dist/core');
 let molly = require('./molly');

@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 ////// HIDE DIALOG
-let el = document.getElementById("dialogBox");
-el.style.display = "none";
+// let el = document.getElementById("dialogBox");
+// el.style.display = "none";
 //////
 var Typewriter = require('typewriter-effect/dist/core');
 let molly = require('./molly');
@@ -134,7 +134,7 @@ class Level {
     }
     drawLevel(ctx) {
         ctx.save();
-        // ctx.clip(molly.sptl);
+        ctx.clip(molly.sptl);
         this.drawWall(ctx);
         this.drawTreasure(ctx);
         ctx.restore();
@@ -2981,7 +2981,7 @@ molly.inlevel = true;
 },{"./dialogControl":1,"./levels":2,"./molly":3,"./spotlight":11,"typewriter-effect":9}],11:[function(require,module,exports){
 class Spotlight {
     maxradius = 100;
-    radius = 100;
+    radius = 0;
     pts =[...Array(500).keys()].map( (i) => [Math.floor(14*Math.cos(2*i*Math.PI/500 + 0.0001))/14, Math.floor(14*Math.sin(2*i*Math.PI/500 + 0.0001))/14] );
     showSpotlight() {
         let _this = this;
