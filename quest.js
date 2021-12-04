@@ -43,7 +43,6 @@ window.onresize = function() {
 
 // window.spotlight = spotlight;
 window.molly = molly;
-console.log("Starting game...")
 // molly.runTo(100, 100);
 // molly.inlevel = true;
 // window.startLevel = startLevel;

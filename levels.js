@@ -30,11 +30,8 @@ class Level {
     }
     startLevel() {
         molly.heading = "right";
-        molly.runTo(100, 100);
+        molly.runTo(100, 100).then(() => molly.inlevel = true);
         console.log("starting level...");
-        window.setTimeout(() => {console.log("Molly in level!");
-            molly.inlevel = true;
-        }, 40000)
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
@@ -84,18 +81,20 @@ Levels.push(new Level([[20, 0, 0, 30],
     [85, 45, 0, 15]
 ], {file: "key.png", location: [77.5, 50], size: 50},
 () => {
-    dialog.showDialogBox();
-    dialog.displayMessages(
-        [`Hoera, de sleutel is door Molly gevonden!<br>
-        Wisten we maar welk slot we hiermee openen konden.<br>
-        Je raadt het al, hij is natuurlijk voor de kluis,<br>
-        In de krochten van Sint zijn abductiehuis.
-        `,
-        `Zoek het huis, hier is een hint,<br>
-        Het is in het noordoosten dat je het vindt.<br>
-        Doe voorzichtig, wees niet te stoer,<br>
-        Er liggen veel gevaren op de loer!
-        `], [null, null, Levels[molly.currentLevel].startLevel]);
+    dialog.showDialogBox().then( 
+        () =>
+            dialog.displayMessages(
+                [`Hoera, de sleutel is door Molly gevonden!<br>
+                Wisten we maar welk slot we hiermee openen konden.<br>
+                Je raadt het al, hij is natuurlijk voor de kluis,<br>
+                In de krochten van Sint zijn abductiehuis.
+                `,
+                `Zoek het huis, hier is een hint,<br>
+                Het is in het noordoosten dat je het vindt.<br>
+                Doe voorzichtig, wees niet te stoer,<br>
+                Er liggen veel gevaren op de loer!
+                `], [null, null, Levels[molly.currentLevel].startLevel])
+        );
     }
 ));
 

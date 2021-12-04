@@ -68,16 +68,21 @@ class Dialog {
         });
     }
     showDialogBox() {
-        let _this = this;
-        this.shown = true;
-        this.dialogbox.offsetHeight; // Reflow for restarting animation
-        this.dialogbox.style.display = "block";
-        
-        this.dialogbox.addEventListener("animationend", function() {
-            _this.dialogbox.style.display = "block";
-        });
-
+        return new Promise(
+            resolve => {
+                let _this = this;
+                this.shown = true;
+                this.dialogbox.offsetHeight; // Reflow for restarting animation
+                this.dialogbox.style.display = "block";
+                
+                this.dialogbox.addEventListener("animationend", function() {
+                    _this.dialogbox.style.display = "block";
+                    resolve();
+                });
+            }
+        )
     }
+
     next() {
         if (this.messages.length > 0 && typeof(this.messages) != "string") {
             this.typeMessage(this.messages.shift(), this.actions.shift());
@@ -127,11 +132,8 @@ class Level {
     }
     startLevel() {
         molly.heading = "right";
-        molly.runTo(100, 100);
+        molly.runTo(100, 100).then(() => molly.inlevel = true);
         console.log("starting level...");
-        window.setTimeout(() => {console.log("Molly in level!");
-            molly.inlevel = true;
-        }, 40000)
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
@@ -181,18 +183,20 @@ Levels.push(new Level([[20, 0, 0, 30],
     [85, 45, 0, 15]
 ], {file: "key.png", location: [77.5, 50], size: 50},
 () => {
-    dialog.showDialogBox();
-    dialog.displayMessages(
-        [`Hoera, de sleutel is door Molly gevonden!<br>
-        Wisten we maar welk slot we hiermee openen konden.<br>
-        Je raadt het al, hij is natuurlijk voor de kluis,<br>
-        In de krochten van Sint zijn abductiehuis.
-        `,
-        `Zoek het huis, hier is een hint,<br>
-        Het is in het noordoosten dat je het vindt.<br>
-        Doe voorzichtig, wees niet te stoer,<br>
-        Er liggen veel gevaren op de loer!
-        `], [null, null, Levels[molly.currentLevel].startLevel]);
+    dialog.showDialogBox().then( 
+        () =>
+            dialog.displayMessages(
+                [`Hoera, de sleutel is door Molly gevonden!<br>
+                Wisten we maar welk slot we hiermee openen konden.<br>
+                Je raadt het al, hij is natuurlijk voor de kluis,<br>
+                In de krochten van Sint zijn abductiehuis.
+                `,
+                `Zoek het huis, hier is een hint,<br>
+                Het is in het noordoosten dat je het vindt.<br>
+                Doe voorzichtig, wees niet te stoer,<br>
+                Er liggen veel gevaren op de loer!
+                `], [null, null, Levels[molly.currentLevel].startLevel])
+        );
     }
 ));
 
@@ -398,13 +402,27 @@ class Molly {
             this.checkTreasureFound();
         }
     }
+    // runTo(x, y) {
+    //     let _this = this;
+    //     let intr = window.setInterval(function() {
+    //         _this.position[0] += -Math.sign(_this.position[0] - x);
+    //         _this.position[1] += -Math.sign(_this.position[1] - y);
+    //         if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
+    //     }, 1)
+    // }
     runTo(x, y) {
-        let _this = this;
-        let intr = window.setInterval(function() {
-            _this.position[0] += -Math.sign(_this.position[0] - x);
-            _this.position[1] += -Math.sign(_this.position[1] - y);
-            if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
-        }, 1)
+        return new Promise( resolve => {
+            let _this = this;
+            let intr = window.setInterval(function() {
+                _this.position[0] += -Math.sign(_this.position[0] - x);
+                _this.position[1] += -Math.sign(_this.position[1] - y);
+                if (_this.position[0] == x && _this.position[1] == y) {
+                    clearInterval(intr);
+                    resolve();
+                };
+            }, 1)
+        }
+        )
     }
     
     step = 4;
@@ -2990,7 +3008,6 @@ window.onresize = function() {
 
 // window.spotlight = spotlight;
 window.molly = molly;
-console.log("Starting game...")
 // molly.runTo(100, 100);
 // molly.inlevel = true;
 // window.startLevel = startLevel;

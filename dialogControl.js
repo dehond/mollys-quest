@@ -67,16 +67,21 @@ class Dialog {
         });
     }
     showDialogBox() {
-        let _this = this;
-        this.shown = true;
-        this.dialogbox.offsetHeight; // Reflow for restarting animation
-        this.dialogbox.style.display = "block";
-        
-        this.dialogbox.addEventListener("animationend", function() {
-            _this.dialogbox.style.display = "block";
-        });
-
+        return new Promise(
+            resolve => {
+                let _this = this;
+                this.shown = true;
+                this.dialogbox.offsetHeight; // Reflow for restarting animation
+                this.dialogbox.style.display = "block";
+                
+                this.dialogbox.addEventListener("animationend", function() {
+                    _this.dialogbox.style.display = "block";
+                    resolve();
+                });
+            }
+        )
     }
+
     next() {
         if (this.messages.length > 0 && typeof(this.messages) != "string") {
             this.typeMessage(this.messages.shift(), this.actions.shift());

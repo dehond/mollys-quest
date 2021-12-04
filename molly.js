@@ -100,13 +100,27 @@ class Molly {
             this.checkTreasureFound();
         }
     }
+    // runTo(x, y) {
+    //     let _this = this;
+    //     let intr = window.setInterval(function() {
+    //         _this.position[0] += -Math.sign(_this.position[0] - x);
+    //         _this.position[1] += -Math.sign(_this.position[1] - y);
+    //         if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
+    //     }, 1)
+    // }
     runTo(x, y) {
-        let _this = this;
-        let intr = window.setInterval(function() {
-            _this.position[0] += -Math.sign(_this.position[0] - x);
-            _this.position[1] += -Math.sign(_this.position[1] - y);
-            if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
-        }, 1)
+        return new Promise( resolve => {
+            let _this = this;
+            let intr = window.setInterval(function() {
+                _this.position[0] += -Math.sign(_this.position[0] - x);
+                _this.position[1] += -Math.sign(_this.position[1] - y);
+                if (_this.position[0] == x && _this.position[1] == y) {
+                    clearInterval(intr);
+                    resolve();
+                };
+            }, 1)
+        }
+        )
     }
     
     step = 4;
