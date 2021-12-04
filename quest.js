@@ -43,8 +43,9 @@ window.onresize = function() {
 
 // window.spotlight = spotlight;
 window.molly = molly;
-molly.runTo(100, 100);
-molly.inlevel = true;
+console.log("Starting game...")
+// molly.runTo(100, 100);
+// molly.inlevel = true;
 // window.startLevel = startLevel;
 // Levels[0].startLevel();
 // Levels[0].drawWall(ctx);

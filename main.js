@@ -128,8 +128,10 @@ class Level {
     startLevel() {
         molly.heading = "right";
         molly.runTo(100, 100);
-        setTimeout(() => {molly.inlevel = true}, 500)
-        // molly.inlevel = true;
+        console.log("starting level...");
+        window.setTimeout(() => {console.log("Molly in level!");
+            molly.inlevel = true;
+        }, 40000)
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
@@ -398,7 +400,7 @@ class Molly {
     }
     runTo(x, y) {
         let _this = this;
-        let intr = setInterval(function() {
+        let intr = window.setInterval(function() {
             _this.position[0] += -Math.sign(_this.position[0] - x);
             _this.position[1] += -Math.sign(_this.position[1] - y);
             if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
@@ -2988,8 +2990,9 @@ window.onresize = function() {
 
 // window.spotlight = spotlight;
 window.molly = molly;
-molly.runTo(100, 100);
-molly.inlevel = true;
+console.log("Starting game...")
+// molly.runTo(100, 100);
+// molly.inlevel = true;
 // window.startLevel = startLevel;
 // Levels[0].startLevel();
 // Levels[0].drawWall(ctx);

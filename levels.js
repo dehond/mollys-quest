@@ -31,8 +31,10 @@ class Level {
     startLevel() {
         molly.heading = "right";
         molly.runTo(100, 100);
-        setTimeout(() => {molly.inlevel = true}, 500)
-        // molly.inlevel = true;
+        console.log("starting level...");
+        window.setTimeout(() => {console.log("Molly in level!");
+            molly.inlevel = true;
+        }, 40000)
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {

@@ -102,7 +102,7 @@ class Molly {
     }
     runTo(x, y) {
         let _this = this;
-        let intr = setInterval(function() {
+        let intr = window.setInterval(function() {
             _this.position[0] += -Math.sign(_this.position[0] - x);
             _this.position[1] += -Math.sign(_this.position[1] - y);
             if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
