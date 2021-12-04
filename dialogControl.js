@@ -93,6 +93,14 @@ class Dialog {
             ;
         }
     }
+
+    finish() {
+        this.hidePointer();
+        this.typeMessage("Fin!", () => {
+            this.hidePointer();
+            document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
+        });
+    }
 }
 
 let Levels = require('./levels');
