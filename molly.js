@@ -105,13 +105,15 @@ class Molly {
         return new Promise( resolve => {
             let _this = this;
             let intr = window.setInterval(function() {
-                _this.position[0] += -Math.sign(_this.position[0] - x);
-                _this.position[1] += -Math.sign(_this.position[1] - y);
-                if (_this.position[0] == x && _this.position[1] == y) {
+                let dx = _this.position[0] - x;
+                let dy = _this.position[1] - y;
+                _this.position[0] += -dx/20 - Math.sign(dx);
+                _this.position[1] += -dy/20 - Math.sign(dy);
+                if ((Math.abs(dx) < 1) && (Math.abs(dy) < 1)) {
                     clearInterval(intr);
                     resolve();
                 };
-            }, 1)
+            }, 4)
         }
         )
     }
@@ -180,3 +182,4 @@ let molly = new Molly();
 molly.drawMolly();
 module.exports = new Molly();
 let Levels = require('./levels');
+const dialog = require('./dialogControl');

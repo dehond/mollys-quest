@@ -57,7 +57,7 @@ class Dialog {
         // Empty out dialog box
         this.clearDialog();
         this.hidePointer();
-        document.getElementById("logo").style.display = "none";
+        document.getElementById("logo").style.visibility = "hidden";
         document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
 
         this.dialogbox.style.animation = "animate-hide 3s steps(10, jump-none) both";
@@ -76,7 +76,7 @@ class Dialog {
                 
                 this.dialogbox.addEventListener("animationend", function() {
                     _this.dialogbox.style.display = "block";
-                    document.getElementById("logo").style.display = "";
+                    document.getElementById("logo").style.visibility = "visible";
                     resolve();
                 });
             }

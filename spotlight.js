@@ -12,6 +12,15 @@ class Spotlight {
             }
         }, 300)
     }
+    hideSpotlight() {
+        let _this = this;
+        let intr = setInterval(function() {
+            _this.radius += -10;
+            if (_this.radius == 0) {
+                clearInterval(intr);
+            }
+        })
+    }
 }
 
 let spotlight = new Spotlight();

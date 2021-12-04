@@ -60,7 +60,9 @@ class Level {
     finishLevel() {
         molly.inlevel = false;
         this.finishLevelAction();
-        molly.currentLevel += 1;
+        if (molly.currentLevel < (Levels.length - 1)) {
+            molly.currentLevel += 1;
+        }
     }
 }
 
@@ -120,22 +122,23 @@ Levels.push(
         [90, 50, 0, 40]
     ], {file: "house.png", location: [85, 15], size: 250},
     () => {
-        dialog.showDialogBox();
-        dialog.displayMessages([
-            `Molly is ongeschonden bij het huis beland,<br>
-            En is nu een heel eind weg van haar warme mand.<br>
-            Zou het haar ook lukken om de kluis te vinden?<br>
-            Of wordt ze gedognapt door Sint die haar vast zal binden?`,
-            
-            `Wees op je hoede, en voor je het weet,
-            Geniet je weer van het mannetje z'n scheet.
-            Steek je sleutel in de kluis,
-            En ga dan rap samen naar huis!
-            `
-        ], [null, null, Levels[molly.currentLevel].startLevel]);
+        dialog.showDialogBox().then(
+            () => {
+                    dialog.displayMessages([
+                        `Molly is ongeschonden bij het huis beland,<br>
+                        En is nu een heel eind weg van haar warme mand.<br>
+                        Zou het haar ook lukken om de kluis te vinden?<br>
+                        Of wordt ze gedognapt door Sint die haar vast zal binden?`,
+                        
+                        `Wees op je hoede, en voor je het weet,
+                        Geniet je weer van het mannetje z'n scheet.
+                        Steek je sleutel in de kluis,
+                        En ga dan rap samen naar huis!
+                        `
+                    ], [null, null, Levels[molly.currentLevel].startLevel])
+                });
         }
-    )
-)
+    ));
 
 Levels.push(
     new Level([[0, 20, 20, 0],
@@ -152,14 +155,17 @@ Levels.push(
     ],
         {file: "safe.png", location: [50, 50], size: 100},
         () => {
-            dialog.showDialogBox();
-            dialog.displayMessages([
-                `Hoera! Het mannetje is boven water!<br>
-                Het is weer een en al geschater.<br>
-                Als beloning hier een heuse prijs,<br>
-                Met wat ideeën voor heerlijk spijs.
-                `
-            ], [null, null]);     
+            dialog.showDialogBox().then(
+                () => {
+                    dialog.displayMessages([
+                        `Hoera! Het mannetje is boven water!<br>
+                        Het is weer een en al geschater.<br>
+                        Als beloning hier een heuse prijs,<br>
+                        Met wat ideeën voor heerlijk spijs.
+                        `
+                    ], [null, () => {null}]);  
+                }
+            );   
         }
     )
 )

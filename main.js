@@ -58,7 +58,7 @@ class Dialog {
         // Empty out dialog box
         this.clearDialog();
         this.hidePointer();
-        document.getElementById("logo").style.display = "none";
+        document.getElementById("logo").style.visibility = "hidden";
         document.getElementsByClassName("Typewriter__cursor")[0].style.display = "none";
 
         this.dialogbox.style.animation = "animate-hide 3s steps(10, jump-none) both";
@@ -77,7 +77,7 @@ class Dialog {
                 
                 this.dialogbox.addEventListener("animationend", function() {
                     _this.dialogbox.style.display = "block";
-                    document.getElementById("logo").style.display = "";
+                    document.getElementById("logo").style.visibility = "visible";
                     resolve();
                 });
             }
@@ -163,7 +163,9 @@ class Level {
     finishLevel() {
         molly.inlevel = false;
         this.finishLevelAction();
-        molly.currentLevel += 1;
+        if (molly.currentLevel < (Levels.length - 1)) {
+            molly.currentLevel += 1;
+        }
     }
 }
 
@@ -223,22 +225,23 @@ Levels.push(
         [90, 50, 0, 40]
     ], {file: "house.png", location: [85, 15], size: 250},
     () => {
-        dialog.showDialogBox();
-        dialog.displayMessages([
-            `Molly is ongeschonden bij het huis beland,<br>
-            En is nu een heel eind weg van haar warme mand.<br>
-            Zou het haar ook lukken om de kluis te vinden?<br>
-            Of wordt ze gedognapt door Sint die haar vast zal binden?`,
-            
-            `Wees op je hoede, en voor je het weet,
-            Geniet je weer van het mannetje z'n scheet.
-            Steek je sleutel in de kluis,
-            En ga dan rap samen naar huis!
-            `
-        ], [null, null, Levels[molly.currentLevel].startLevel]);
+        dialog.showDialogBox().then(
+            () => {
+                    dialog.displayMessages([
+                        `Molly is ongeschonden bij het huis beland,<br>
+                        En is nu een heel eind weg van haar warme mand.<br>
+                        Zou het haar ook lukken om de kluis te vinden?<br>
+                        Of wordt ze gedognapt door Sint die haar vast zal binden?`,
+                        
+                        `Wees op je hoede, en voor je het weet,
+                        Geniet je weer van het mannetje z'n scheet.
+                        Steek je sleutel in de kluis,
+                        En ga dan rap samen naar huis!
+                        `
+                    ], [null, null, Levels[molly.currentLevel].startLevel])
+                });
         }
-    )
-)
+    ));
 
 Levels.push(
     new Level([[0, 20, 20, 0],
@@ -255,14 +258,17 @@ Levels.push(
     ],
         {file: "safe.png", location: [50, 50], size: 100},
         () => {
-            dialog.showDialogBox();
-            dialog.displayMessages([
-                `Hoera! Het mannetje is boven water!<br>
-                Het is weer een en al geschater.<br>
-                Als beloning hier een heuse prijs,<br>
-                Met wat ideeën voor heerlijk spijs.
-                `
-            ], [null, null]);     
+            dialog.showDialogBox().then(
+                () => {
+                    dialog.displayMessages([
+                        `Hoera! Het mannetje is boven water!<br>
+                        Het is weer een en al geschater.<br>
+                        Als beloning hier een heuse prijs,<br>
+                        Met wat ideeën voor heerlijk spijs.
+                        `
+                    ], [null, () => {null}]);  
+                }
+            );   
         }
     )
 )
@@ -408,13 +414,15 @@ class Molly {
         return new Promise( resolve => {
             let _this = this;
             let intr = window.setInterval(function() {
-                _this.position[0] += -Math.sign(_this.position[0] - x);
-                _this.position[1] += -Math.sign(_this.position[1] - y);
-                if (_this.position[0] == x && _this.position[1] == y) {
+                let dx = _this.position[0] - x;
+                let dy = _this.position[1] - y;
+                _this.position[0] += -dx/20 - Math.sign(dx);
+                _this.position[1] += -dy/20 - Math.sign(dy);
+                if ((Math.abs(dx) < 1) && (Math.abs(dy) < 1)) {
                     clearInterval(intr);
                     resolve();
                 };
-            }, 1)
+            }, 4)
         }
         )
     }
@@ -483,7 +491,9 @@ let molly = new Molly();
 molly.drawMolly();
 module.exports = new Molly();
 let Levels = require('./levels');
-},{"./levels":2,"./spotlight":11}],4:[function(require,module,exports){
+const dialog = require('./dialogControl');
+
+},{"./dialogControl":1,"./levels":2,"./spotlight":11}],4:[function(require,module,exports){
 /*
 object-assign
 (c) Sindre Sorhus
@@ -3021,6 +3031,15 @@ class Spotlight {
                 clearInterval(intr);
             }
         }, 300)
+    }
+    hideSpotlight() {
+        let _this = this;
+        let intr = setInterval(function() {
+            _this.radius += -10;
+            if (_this.radius == 0) {
+                clearInterval(intr);
+            }
+        })
     }
 }
 
