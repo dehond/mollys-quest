@@ -241,9 +241,9 @@ Levels.push(
                         Zou het haar ook lukken om de kluis te vinden?<br>
                         Of wordt ze gedognapt door Sint die haar vast zal binden?`,
                         
-                        `Wees op je hoede, en voor je het weet,
-                        Geniet je weer van het mannetje z'n scheet.
-                        Steek je sleutel in de kluis,
+                        `Wees op je hoede, en voor je het weet,<br>
+                        Geniet je weer van het mannetje z'n scheet.<br>
+                        Steek je sleutel in de kluis,<br>
                         En ga dan rap samen naar huis!
                         `
                     ], [null, null, Levels[molly.currentLevel].startLevel])
