@@ -19,7 +19,7 @@ class Spotlight {
             if (_this.radius == 0) {
                 clearInterval(intr);
             }
-        })
+        }, 300)
     }
 }
 

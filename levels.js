@@ -163,7 +163,7 @@ Levels.push(
                         Als beloning hier een heuse prijs,<br>
                         Met wat ideeën voor heerlijk spijs.
                         `
-                    ], [null, () => {null}]);  
+                    ], [null, showFinish]);  
                 }
             );   
         }
@@ -198,6 +198,10 @@ let messages = [`Er was eens een mannetje, in het midden van het land,<br>
                 En haal het mannetje uit de Sint z'n kluis.
                 `
             ];
+
+function showFinish() {
+    
+}
 
 let actions = [null, null, () => spotlight.showSpotlight(), () => molly.runTo(-100, molly.position[1]), null, () => Levels[0].startLevel()];
 dialog.displayMessages(messages, actions);
