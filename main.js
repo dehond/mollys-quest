@@ -77,6 +77,7 @@ class Dialog {
                 
                 this.dialogbox.addEventListener("animationend", function() {
                     _this.dialogbox.style.display = "block";
+                    document.getElementById("logo").style.display = "";
                     resolve();
                 });
             }
@@ -402,14 +403,7 @@ class Molly {
             this.checkTreasureFound();
         }
     }
-    // runTo(x, y) {
-    //     let _this = this;
-    //     let intr = window.setInterval(function() {
-    //         _this.position[0] += -Math.sign(_this.position[0] - x);
-    //         _this.position[1] += -Math.sign(_this.position[1] - y);
-    //         if (_this.position[0] == x && _this.position[1] == y) {clearInterval(intr)};
-    //     }, 1)
-    // }
+
     runTo(x, y) {
         return new Promise( resolve => {
             let _this = this;

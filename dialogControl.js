@@ -76,6 +76,7 @@ class Dialog {
                 
                 this.dialogbox.addEventListener("animationend", function() {
                     _this.dialogbox.style.display = "block";
+                    document.getElementById("logo").style.display = "";
                     resolve();
                 });
             }
