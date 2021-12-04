@@ -142,7 +142,6 @@ class Level {
     startLevel() {
         molly.heading = "right";
         molly.runTo(100, 100).then(() => molly.inlevel = true);
-        console.log("starting level...");
         spotlight.showSpotlight();
     }
     drawLevel(ctx) {
